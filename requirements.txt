@@ -3,3 +3,4 @@ uvicorn
 openai
 python-dotenv
 jinja2
+websockets

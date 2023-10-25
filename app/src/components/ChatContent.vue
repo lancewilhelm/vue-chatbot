@@ -8,23 +8,7 @@ export default {
     },
     data() {
         return {
-            messages: [
-                { role: 'user', content: 'Hello' },
-                { role: 'assistant', content: 'Hi, how are you?' },
-                { role: 'user', content: "I'm fine, thanks." },
-                { role: 'assistant', content: 'Good to hear.' },
-                { role: 'user', content: 'Bye.' },
-                { role: 'assistant', content: 'Good to hear.' },
-                { role: 'user', content: 'Bye.' },
-                { role: 'assistant', content: 'Good to hear.' },
-                { role: 'user', content: 'Bye.' },
-                { role: 'assistant', content: 'Good to hear.' },
-                { role: 'user', content: 'Bye.' },
-                { role: 'assistant', content: 'Good to hear.' },
-                { role: 'user', content: 'Bye.' },
-                { role: 'assistant', content: 'Good to hear.' },
-                { role: 'user', content: 'Bye.' },
-            ],
+            messages: [],
         };
     },
 };

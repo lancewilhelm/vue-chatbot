@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "reconnecting-websocket": "^4.4.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {

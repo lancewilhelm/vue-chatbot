@@ -1,6 +1,30 @@
-<script setup>
+<script>
 import ChatContent from './components/ChatContent.vue'
 import InputRow from './components/InputRow.vue'
+import ReconnectingWebSocket from 'reconnecting-websocket';
+
+export default {
+  name: 'App',
+  components: {
+      ChatContent,
+      InputRow,
+  },
+  data() {
+      return {
+          messages: [],
+          socket: null,
+      };
+  },
+  mounted() {
+      this.socket = new ReconnectingWebSocket('ws://localhost:8000/ws');
+      this.getMessages();
+  },
+  methods: {
+      getMessages() {
+
+      }
+  }
+}
 </script>
 
 <template>

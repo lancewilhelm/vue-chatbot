@@ -1,8 +1,6 @@
 <script>
 export default {
-    name: 'InputRow',
-    components: {
-    }
+    name: 'InputRow'
 }
 </script>
 
