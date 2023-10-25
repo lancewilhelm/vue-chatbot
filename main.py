@@ -40,6 +40,12 @@ async def websocket_endpoint(websocket: WebSocket):
                 print(return_message)
                 await websocket.send_text(json.dumps(return_message))
 
+            if message_data['type'] == 'clear_messages':
+                messages.clear()
+                return_message = {'type': 'message_update', 'content': messages}
+                print(return_message)
+                await websocket.send_text(json.dumps(return_message))
+
     except WebSocketDisconnect:
         print("Client disconnected")
 
