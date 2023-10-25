@@ -7,15 +7,18 @@ import openai
 from dotenv import load_dotenv, find_dotenv
 from pymongo import MongoClient
 
+# read local .env file
+_ = load_dotenv(find_dotenv())
+
 # Connect to MongoDB
-client = MongoClient('mongodb://127.0.0.1:27017/')
+uri = os.environ["MONGO_URI"]
+client = MongoClient(uri)
 db = client['vue-chatbot']
 messages_collection = db['messages']
 messages_collection.delete_many({}) # Clear the messages collection
 messages_collection.insert_one({'role': 'system', 'content': 'You are a helpful assistant'}) # Add a system message
 
 # Get the API key from environment variables
-_ = load_dotenv(find_dotenv())  # read local .env file
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # Create a OpenAI ChatGPT completion function

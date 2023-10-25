@@ -14,5 +14,6 @@ A simple LLM-powered chatbot webapp in Vue.js with FastAPI backend
 8. Let's make them talk with a websocket. `npm install reconnecting-websocket`, `pip install websockets`.
 9. Incorporate OpenAI API key and make the backend talk to OpenAI API. Use `.env` file to store the API key.
 10. Create a mongodb backend to store all the data
+11. Dockerize
 
 ## Installation
