@@ -1,14 +1,21 @@
 <script>
+import ChatBubble from './ChatBubble.vue'
+
 export default {
     name: 'ChatContent',
     components: {
+        ChatBubble,
     }
 }
 </script>
 
 <template>
     <div class='chat-content'>
-        <h1>Chat Content</h1>
+        <ChatBubble/>
+        <ChatBubble/>
+        <ChatBubble/>
+        <ChatBubble/>
+        <ChatBubble/>
     </div>
 </template>
 
