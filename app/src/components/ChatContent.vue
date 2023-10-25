@@ -14,6 +14,16 @@ export default {
                 { role: 'user', content: "I'm fine, thanks." },
                 { role: 'assistant', content: 'Good to hear.' },
                 { role: 'user', content: 'Bye.' },
+                { role: 'assistant', content: 'Good to hear.' },
+                { role: 'user', content: 'Bye.' },
+                { role: 'assistant', content: 'Good to hear.' },
+                { role: 'user', content: 'Bye.' },
+                { role: 'assistant', content: 'Good to hear.' },
+                { role: 'user', content: 'Bye.' },
+                { role: 'assistant', content: 'Good to hear.' },
+                { role: 'user', content: 'Bye.' },
+                { role: 'assistant', content: 'Good to hear.' },
+                { role: 'user', content: 'Bye.' },
             ],
         };
     },
@@ -32,11 +42,13 @@ export default {
 
 <style scoped>
 .chat-content {
-    background-color: #eda9f9;
+    background-color: #f4f8ff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     height: 100%;
     padding: 1rem;
     width: 100%;
+    margin-bottom: 10px;
+    overflow: auto;
 }
 </style>
