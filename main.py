@@ -2,8 +2,25 @@ from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import json
+import os
+import openai
+from dotenv import load_dotenv, find_dotenv
 
-messages = []
+messages = [{'role': 'system', 'content': 'You are a helpful assistant'}]
+
+# Get the API key from environment variables
+_ = load_dotenv(find_dotenv())  # read local .env file
+openai.api_key = os.environ["OPENAI_API_KEY"]
+
+# Create a OpenAI ChatGPT completion function
+def get_chat_response():
+    global messages
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        temperature=0.7
+    )
+    messages.append({'role': 'assistant', 'content': response.choices[0].message['content']})
 
 app = FastAPI(debug=True)
 
@@ -28,21 +45,22 @@ async def websocket_endpoint(websocket: WebSocket):
             message_data = json.loads(data)
             print(message_data)
             if message_data['type'] == 'get_messages':
-                return_message = {'type': 'message_update', 'content': messages}
+                return_message = {'type': 'message_update', 'content': messages[1:]}
                 print(return_message)
                 await websocket.send_text(json.dumps(return_message))
 
             if message_data['type'] == 'new_message':
                 new_message = message_data['content']
                 messages.append({'role': 'user', 'content': new_message})
-                messages.append({'role': 'assistant', 'content': new_message})
-                return_message = {'type': 'message_update', 'content': messages}
+                get_chat_response()
+                return_message = {'type': 'message_update', 'content': messages[1:]}
                 print(return_message)
                 await websocket.send_text(json.dumps(return_message))
 
             if message_data['type'] == 'clear_messages':
                 messages.clear()
-                return_message = {'type': 'message_update', 'content': messages}
+                messages.append({'role': 'system', 'content': 'You are a helpful assistant'})
+                return_message = {'type': 'message_update', 'content': messages[1:]}
                 print(return_message)
                 await websocket.send_text(json.dumps(return_message))
 

@@ -13,7 +13,12 @@ export default {
         };
     },
     methods: {
-        async sendMessage() {
+        async sendMessage(event) {
+            // If the user presses enter, prevent the default form action
+            if (event) {
+                event.preventDefault();
+            }
+
             if (this.messageContent.trim() !== '') {
 
                 const newMessage = {
