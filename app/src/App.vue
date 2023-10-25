@@ -35,9 +35,9 @@ export default {
             const newMessage = {
                 type: 'get_messages',
             };
-            this.sendSocketmessage(newMessage);
+            this.sendSocketMessage(newMessage);
         },
-        sendSocketmessage(message) {
+        sendSocketMessage(message) {
             this.socket.send(JSON.stringify(message));
         },
     },
@@ -47,8 +47,8 @@ export default {
 <template>
     <div class="app">
         <div class="app-content">
-            <ChatContent />
-            <InputRow />
+            <ChatContent :messages="this.messages"/>
+            <InputRow :sendSocketMessage="this.sendSocketMessage" :messages="this.messages"/>
         </div>
     </div>
 </template>

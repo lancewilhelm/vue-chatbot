@@ -6,10 +6,11 @@ export default {
     components: {
         ChatBubble,
     },
-    data() {
-        return {
-            messages: [],
-        };
+    props: {
+        messages: {
+            type: Array,
+            required: true,
+        },
     },
 };
 </script>

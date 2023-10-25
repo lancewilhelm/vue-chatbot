@@ -32,6 +32,14 @@ async def websocket_endpoint(websocket: WebSocket):
                 print(return_message)
                 await websocket.send_text(json.dumps(return_message))
 
+            if message_data['type'] == 'new_message':
+                new_message = message_data['content']
+                messages.append({'role': 'user', 'content': new_message})
+                messages.append({'role': 'assistant', 'content': new_message})
+                return_message = {'type': 'message_update', 'content': messages}
+                print(return_message)
+                await websocket.send_text(json.dumps(return_message))
+
     except WebSocketDisconnect:
         print("Client disconnected")
 

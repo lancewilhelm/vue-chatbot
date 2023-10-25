@@ -1,13 +1,37 @@
 <script>
 export default {
-    name: 'InputRow'
+    name: 'InputRow',
+    props: {
+        sendSocketMessage: {
+            type: Function,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            messageContent: '',
+        };
+    },
+    methods: {
+        async sendMessage() {
+            if (this.messageContent.trim() !== '') {
+
+                const newMessage = {
+                    type: 'new_message',
+                    content: this.messageContent,
+                };
+                this.sendSocketMessage(newMessage);
+                this.messageContent = '';
+            }
+        }
+    }
 }
 </script>
 
 <template>
     <div class='input-row'>
-        <textarea rows="3"></textarea>
-        <button>Send</button>
+        <textarea rows="3" v-model="this.messageContent" placeholder="Type a message" @keydown.enter="sendMessage"></textarea>
+        <button @click="sendMessage">Send</button>
     </div>
 </template>
 
