@@ -9,5 +9,6 @@ A simple LLM-powered chatbot webapp in Vue.js with FastAPI backend
 3. Observe the structure of the project and the files created. Two screenshots here, one of page and one of file structure.
 4. Get rid of the current contents as we are going to put in our own. Chat content, and input bar
 5. Style the components and make them look like they should by adding things in them.
+6. Create the backend with FastAPI. `pip install fastapi` and `pip install uvicorn`. Python <= 3.11 is required. Create a new file called `main.py`. We are also going to use OpenAI API so `pip install openai` and `pip install python-dotenv`.
 
 ## Installation
