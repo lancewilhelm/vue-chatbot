@@ -5,7 +5,7 @@ import json
 
 messages = []
 
-app = FastAPI()
+app = FastAPI(debug=True)
 
 # Set static file location
 app.mount("/assets", StaticFiles(directory="app/dist/assets", html=True), name="static")
@@ -22,12 +22,18 @@ async def root(request: Request):
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        message_data = json.loads(data)
-        if message_data['type'] == 'get_messages':
-            return_message = {'type': 'message_update', 'content': messages}
-            await websocket.send_text(json.dumps(return_message))
+    try:
+        while True:
+            data = await websocket.receive_text()
+            message_data = json.loads(data)
+            print(message_data)
+            if message_data['type'] == 'get_messages':
+                return_message = {'type': 'message_update', 'content': messages}
+                print(return_message)
+                await websocket.send_text(json.dumps(return_message))
+
+    except WebSocketDisconnect:
+        print("Client disconnected")
 
 if __name__ == "__main__":
     import uvicorn
