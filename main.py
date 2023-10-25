@@ -45,24 +45,19 @@ async def websocket_endpoint(websocket: WebSocket):
             message_data = json.loads(data)
             print(message_data)
             if message_data['type'] == 'get_messages':
-                return_message = {'type': 'message_update', 'content': messages[1:]}
-                print(return_message)
-                await websocket.send_text(json.dumps(return_message))
+                await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
 
             if message_data['type'] == 'new_message':
                 new_message = message_data['content']
                 messages.append({'role': 'user', 'content': new_message})
+                await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
                 get_chat_response()
-                return_message = {'type': 'message_update', 'content': messages[1:]}
-                print(return_message)
-                await websocket.send_text(json.dumps(return_message))
+                await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
 
             if message_data['type'] == 'clear_messages':
                 messages.clear()
                 messages.append({'role': 'system', 'content': 'You are a helpful assistant'})
-                return_message = {'type': 'message_update', 'content': messages[1:]}
-                print(return_message)
-                await websocket.send_text(json.dumps(return_message))
+                await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
 
     except WebSocketDisconnect:
         print("Client disconnected")

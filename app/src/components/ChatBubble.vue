@@ -34,15 +34,16 @@ export default {
 }
 
 .chat-bubble-avatar {
+    flex-shrink: 0;
     background-color: #e1e1e1;
     border-radius: 50%;
     color: #000;
     font-weight: bold;
     height: 40px;
+    width: 40px;
     line-height: 40px;
     margin-right: 10px;
     text-align: center;
-    width: 40px;
     margin: 0px 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
@@ -51,6 +52,7 @@ export default {
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    max-width: 80%;
 }
 
 .user .chat-bubble-content {
@@ -59,7 +61,6 @@ export default {
 
 .assistant .chat-bubble-content{
     background-color: #f6f8d0;
-    text-align: right;
 }
 </style>
     
