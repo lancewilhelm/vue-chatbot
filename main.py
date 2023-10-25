@@ -5,8 +5,14 @@ import json
 import os
 import openai
 from dotenv import load_dotenv, find_dotenv
+from pymongo import MongoClient
 
-messages = [{'role': 'system', 'content': 'You are a helpful assistant'}]
+# Connect to MongoDB
+client = MongoClient('mongodb://127.0.0.1:27017/')
+db = client['vue-chatbot']
+messages_collection = db['messages']
+messages_collection.delete_many({}) # Clear the messages collection
+messages_collection.insert_one({'role': 'system', 'content': 'You are a helpful assistant'}) # Add a system message
 
 # Get the API key from environment variables
 _ = load_dotenv(find_dotenv())  # read local .env file
@@ -14,13 +20,19 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # Create a OpenAI ChatGPT completion function
 def get_chat_response():
-    global messages
+    messages = get_messages()
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messages,
         temperature=0.7
     )
-    messages.append({'role': 'assistant', 'content': response.choices[0].message['content']})
+    messages_collection.insert_one({'role': 'assistant', 'content': response.choices[0].message['content']})
+
+def get_messages():
+    messages = list(messages_collection.find({}))
+    for message in messages:
+        message.pop('_id')
+    return messages
 
 app = FastAPI(debug=True)
 
@@ -43,20 +55,23 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             data = await websocket.receive_text()
             message_data = json.loads(data)
-            print(message_data)
             if message_data['type'] == 'get_messages':
+                messages = get_messages()
                 await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
 
             if message_data['type'] == 'new_message':
                 new_message = message_data['content']
-                messages.append({'role': 'user', 'content': new_message})
+                messages_collection.insert_one({'role': 'user', 'content': new_message})
+                messages = get_messages()
                 await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
                 get_chat_response()
+                messages = get_messages()
                 await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
 
             if message_data['type'] == 'clear_messages':
-                messages.clear()
-                messages.append({'role': 'system', 'content': 'You are a helpful assistant'})
+                messages_collection.delete_many({})
+                messages_collection.insert_one({'role': 'system', 'content': 'You are a helpful assistant'})
+                messages = get_messages()
                 await websocket.send_text(json.dumps({'type': 'message_update', 'content': messages[1:]}))
 
     except WebSocketDisconnect:
