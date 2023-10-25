@@ -2,6 +2,16 @@
 
 A simple LLM-powered chatbot webapp in Vue.js with FastAPI backend
 
+## Running the app
+
+The easiest way to run this app and part of the intention of its creation is to run it via the `docker-compose` functionality. This will start the backend which hosts the page, the database and run them in containers. The only thing you need to do is to create a `.env` file in the root directory of the project and add your OpenAI API key there. The file should look like this:
+
+```bash
+OPENAI_API_KEY=your_api_key
+```
+
+Then you can run the app with `docker-compose up --build`. This will build the containers and start them. The app will be available at `localhost:8000`.
+
 ## Steps to reproduce
 
 1. Create a new Vue.js project with `npm create vue@latest`. This will require Node.js and npm to be installed.
