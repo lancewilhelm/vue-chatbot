@@ -1,21 +1,32 @@
 <script>
-import ChatBubble from './ChatBubble.vue'
+import ChatBubble from './ChatBubble.vue';
 
 export default {
     name: 'ChatContent',
     components: {
         ChatBubble,
-    }
-}
+    },
+    data() {
+        return {
+            messages: [
+                { role: 'user', content: 'Hello' },
+                { role: 'assistant', content: 'Hi, how are you?' },
+                { role: 'user', content: "I'm fine, thanks." },
+                { role: 'assistant', content: 'Good to hear.' },
+                { role: 'user', content: 'Bye.' },
+            ],
+        };
+    },
+};
 </script>
 
 <template>
-    <div class='chat-content'>
-        <ChatBubble/>
-        <ChatBubble/>
-        <ChatBubble/>
-        <ChatBubble/>
-        <ChatBubble/>
+    <div class="chat-content">
+        <ChatBubble
+            v-for="(message, index) in messages"
+            :key="index"
+            :message="message"
+        />
     </div>
 </template>
 

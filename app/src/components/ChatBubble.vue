@@ -1,26 +1,63 @@
 <script>
 export default {
     name: 'ChatBubble',
-    components: {
-    }
+    props: {
+        message: {
+            type: Object,
+            required: true,
+        },
+    },
 }
 </script>
 
 <template>
-<div class="chat-bubble">
+<div :class="['chat-bubble', message.role]">
     <div class="chat-bubble-avatar">
-        <i class="fas fa-user"></i>
+        {{ message.role[0].toUpperCase() }}
     </div>
     <div class="chat-bubble-content">
-        Test
+        {{ message.content }}
     </div>
 </div>
 </template>
 
 <style scoped>
 .chat-bubble {
-    background-color: #f6f8d0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
     margin-bottom: 10px;
+}
+
+.chat-bubble.assistant {
+    flex-direction: row-reverse;
+}
+
+.chat-bubble-avatar {
+    background-color: #e1e1e1;
+    border-radius: 50%;
+    color: #000;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    margin-right: 10px;
+    text-align: center;
+    width: 40px;
+    margin: 0px 10px;
+}
+
+.chat-bubble-content {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.user .chat-bubble-content {
+    background-color: #f6db99;
+}
+
+.assistant .chat-bubble-content{
+    background-color: #f6f8d0;
+    text-align: right;
 }
 </style>
     
